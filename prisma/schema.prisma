@@ -1,10 +1,10 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 model User {
@@ -15,11 +15,11 @@ model User {
   avatar       String         @default("https://reedbarger.nyc3.digitaloceanspaces.com/default-avatar.png")
   cover        String         @default("https://reedbarger.nyc3.digitaloceanspaces.com/default-cover-banner.png")
   about        String         @default("")
+  comments     Comment[]
+  subscribedTo Subscription[] @relation("subscribedTo")
+  subscribers  Subscription[] @relation("subscriber")
   videos       Video[]
   videoLikes   VideoLike[]
-  comments     Comment[]
-  subscribers  Subscription[] @relation("subscriber")
-  subscribedTo Subscription[] @relation("subscribedTo")
   views        View[]
 }
 
@@ -38,8 +38,8 @@ model Subscription {
   createdAt      DateTime @default(now())
   subscriberId   String
   subscribedToId String
-  subscriber     User     @relation("subscriber", fields: [subscriberId], references: [id])
   subscribedTo   User     @relation("subscribedTo", fields: [subscribedToId], references: [id])
+  subscriber     User     @relation("subscriber", fields: [subscriberId], references: [id])
 }
 
 model Video {
@@ -51,8 +51,8 @@ model Video {
   thumbnail   String
   userId      String
   user        User        @relation(fields: [userId], references: [id])
-  videoLikes  VideoLike[]
   comments    Comment[]
+  videoLikes  VideoLike[]
   views       View[]
 }
 
