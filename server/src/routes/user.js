@@ -9,12 +9,15 @@ function getUserRoutes() {
   const router = express.Router();
 
   router.get("/", protect, getRecommendedChannels);
+  router.put("/", protect, editUser);
+
   router.get("/liked-videos", protect, getLikedVideos);
-  router.get("/:userId", getAuthUser, getProfile);
   router.get("/history", protect, getHistory);
-  router.get("/:userId/toggle-subscribe", protect, toggleSubscribe);
   router.get("/subscriptions", protect, getFeed);
   router.get("/search", getAuthUser, searchUser);
+
+  router.get("/:userId", getAuthUser, getProfile);
+  router.get("/:userId/toggle-subscribe", protect, toggleSubscribe);
 
   return router;
 }
@@ -358,6 +361,22 @@ async function getProfile(req, res, next) {
   res.status(200).json({ user });
 }
 
-async function editUser(req, res) {}
+async function editUser(req, res) {
+  const { username, cover, avatar, about } = req.body;
+
+  const user = await prisma.user.update({
+    where: {
+      id: req.user.id,
+    },
+    data: {
+      username,
+      cover,
+      avatar,
+      about,
+    },
+  });
+
+  res.status(200).json({ user });
+}
 
 export { getUserRoutes };
