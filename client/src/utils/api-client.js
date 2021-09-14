@@ -15,11 +15,14 @@ export function authenticate(response) {
       window.location.assign(window.location.href);
     })
     .catch((error) => {
-      console.group("Sign in error: ", error.response);
+      console.log("Sign in error: ", error.response);
     });
 }
 
-export async function signoutUser() {}
+export async function signoutUser() {
+  await client.get("/auth/signout");
+  window.location.pathname = "/";
+}
 
 export async function updateUser() {}
 

@@ -6,6 +6,7 @@ import GoogleAuth from "./GoogleAuth";
 import { AppsIcon, HamburgerIcon, LogoIcon, SettingsIcon } from "./Icons";
 import Search from "./Search";
 import UserDropdown from "./UserDropdown";
+import UploadVideo from "./UploadVideo";
 
 function Navbar({ toggleSidebarOpen }) {
   const user = useAuth();
@@ -31,12 +32,8 @@ function Navbar({ toggleSidebarOpen }) {
       <Search />
 
       <ul>
-        <li>
-          <AppsIcon />
-        </li>
-        <li>
-          <SettingsIcon />
-        </li>
+        <li>{user ? <UploadVideo /> : <AppsIcon />}</li>
+        <li>{user ? <AppsIcon /> : <SettingsIcon />}</li>
         <li>{user ? <UserDropdown user={user} /> : <GoogleAuth />}</li>
       </ul>
     </Wrapper>
