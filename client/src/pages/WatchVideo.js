@@ -8,7 +8,7 @@ import Button from "../styles/Button";
 import Skeleton from "../skeletons/WatchVideoSkeleton";
 import Wrapper from "../styles/WatchVideo";
 import { useQuery } from "react-query";
-import { client } from "../utils/api-client";
+import { client, likeVideo, dislikeVideo } from "../utils/api-client";
 import AddComment from "../components/AddComment";
 import { formatCreatedAt } from "../utils/date";
 import VideoCard from "../components/VideoCard";
@@ -41,6 +41,14 @@ function WatchVideo() {
     );
   }
 
+  function handleLikeVideo(videoId) {
+    likeVideo(videoId);
+  }
+
+  function handleDislikeVideo(videoId) {
+    dislikeVideo(videoId);
+  }
+
   return (
     <Wrapper
       filledLike={video && video.isLiked}
@@ -62,10 +70,12 @@ function WatchVideo() {
 
             <div className="likes-dislikes flex-row">
               <p className="flex-row like">
-                <LikeIcon /> <span>{video.likesCount}</span>
+                <LikeIcon onClick={() => handleLikeVideo(video.id)} />{" "}
+                <span>{video.likesCount}</span>
               </p>
               <p className="flex-row dislike" style={{ marginLeft: "1rem" }}>
-                <DislikeIcon /> <span>{video.DislikesCount}</span>
+                <DislikeIcon onClick={() => handleDislikeVideo(video.id)} />{" "}
+                <span>{video.DislikesCount}</span>
               </p>
             </div>
           </div>
