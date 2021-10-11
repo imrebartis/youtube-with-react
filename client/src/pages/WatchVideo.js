@@ -112,7 +112,9 @@ function WatchVideo() {
               </Button>
             )}
             {!video.isVideoMine && video.isSubscribed && (
-              <Button>Subscribed</Button>
+              <Button grey onClick={() => handleToggleSubscribe(video.user.id)}>
+                Subscribed
+              </Button>
             )}
           </div>
 
