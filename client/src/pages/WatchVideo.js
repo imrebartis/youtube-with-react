@@ -48,19 +48,19 @@ function WatchVideo() {
     );
   }
 
-  function handleLikeVideo(videoId) {
+  function handleLikeVideo() {
     // likeVideo(videoId);
-    handleAuthAction(likeVideo, videoId);
+    handleAuthAction(likeVideo, video.id);
   }
 
-  function handleDislikeVideo(videoId) {
+  function handleDislikeVideo() {
     // dislikeVideo(videoId);
-    handleAuthAction(dislikeVideo, videoId);
+    handleAuthAction(dislikeVideo, video.id);
   }
 
-  function handleToggleSubscribe(channelId) {
+  function handleToggleSubscribe() {
     // toggleSubscribeUser(channelId);
-    handleAuthAction(toggleSubscribeUser, channelId);
+    handleAuthAction(toggleSubscribeUser, video.user.id);
   }
 
   return (
@@ -84,11 +84,11 @@ function WatchVideo() {
 
             <div className="likes-dislikes flex-row">
               <p className="flex-row like">
-                <LikeIcon onClick={() => handleLikeVideo(video.id)} />{" "}
+                <LikeIcon onClick={handleLikeVideo} />{" "}
                 <span>{video.likesCount}</span>
               </p>
               <p className="flex-row dislike" style={{ marginLeft: "1rem" }}>
-                <DislikeIcon onClick={() => handleDislikeVideo(video.id)} />{" "}
+                <DislikeIcon onClick={handleDislikeVideo} />{" "}
                 <span>{video.DislikesCount}</span>
               </p>
             </div>
@@ -112,12 +112,10 @@ function WatchVideo() {
             </div>
 
             {!video.isVideoMine && !video.isSubscribed && (
-              <Button onClick={() => handleToggleSubscribe(video.user.id)}>
-                Subscribe
-              </Button>
+              <Button onClick={handleToggleSubscribe}>Subscribe</Button>
             )}
             {!video.isVideoMine && video.isSubscribed && (
-              <Button grey onClick={() => handleToggleSubscribe(video.user.id)}>
+              <Button grey onClick={handleToggleSubscribe}>
                 Subscribed
               </Button>
             )}
